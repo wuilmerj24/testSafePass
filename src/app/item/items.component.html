@@ -1,0 +1,42 @@
+<ActionBar title="Configuración" class="action-bar" />
+
+<ScrollView>
+	<StackLayout class="page">
+	
+		<!-- Slider -->
+		<Label text="Longitud de la contraseña" class="ios-headline"></Label>
+		<Slider minValue="1" maxValue="100" [value]="length" (valueChange)="onValueChange($event)" />
+		<Label [text]="'Valor: ' + length" class="ios-value"></Label>
+	
+		<!-- Opciones estilo iOS -->
+		<StackLayout class="ios-card">
+			<GridLayout columns="*, auto" class="ios-row">
+				<Label text="Incluir mayúsculas" col="0" class="ios-label"></Label>
+				<Switch [checked]="includeUppercase" col="1" (checkedChange)="onCheckChange($event,0)" />
+			</GridLayout>
+			<GridLayout columns="*, auto" class="ios-row">
+				<Label text="Incluir números" col="0" class="ios-label"></Label>
+				<Switch [checked]="includeNumbers" col="1" (checkedChange)="onCheckChange($event,1)" />
+			</GridLayout>
+			<GridLayout columns="*, auto" class="ios-row">
+				<Label text="Incluir símbolos" col="0" class="ios-label"></Label>
+				<Switch [checked]="includeSymbols" col="1" (checkedChange)="onCheckChange($event,2)" />
+			</GridLayout>
+		</StackLayout>
+	
+		<!-- Resultados -->
+		<StackLayout class="ios-card mt-4">
+			<Label [text]="'Contraseña: ' + password" class="ios-result" textWrap="true"></Label>
+			<Label [text]="'Fuerza: ' + password_fuerza" class="ios-result" [ngClass]="getStrengthClass()">
+				<!-- También puedes usar la opción con el objeto directamente aquí -->
+			</Label>
+		</StackLayout>
+	
+		<!-- Botones estilo iOS -->
+		<StackLayout class="ios-btn-group">
+			<Button text="Generar" class="ios-btn-primary" (tap)="getPassword()"></Button>
+			<Button text="Verificar" class="ios-btn-secondary" (tap)="checkPassword()"></Button>
+		</StackLayout>
+	
+	</StackLayout>
+</ScrollView>

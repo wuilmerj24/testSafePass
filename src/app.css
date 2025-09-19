@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.page {
+    padding: 16;
+    background-color: #f2f2f7;
+}
+
+.ios-headline {
+    font-size: 18;
+    font-weight: 600;
+    margin: 12 0;
+    color: #000;
+}
+
+.ios-value {
+    font-size: 16;
+    color: #007aff;
+    margin-bottom: 16;
+}
+
+.ios-card {
+    background-color: #fff;
+    border-radius: 12;
+    padding: 8;
+    margin-top: 8;
+}
+
+.ios-row {
+    padding: 12 0;
+    border-bottom-width: 1;
+    border-color: #d1d1d6;
+}
+
+.ios-row:last-child {
+    border-bottom-width: 0;
+}
+
+.ios-label {
+    font-size: 16;
+    color: #000;
+}
+
+.ios-result {
+    font-size: 16;
+    color: #333;
+    margin-vertical: 6;
+}
+
+.ios-btn-group {
+    margin-top: 24;
+    row-gap: 12;
+}
+
+.ios-btn-primary {
+    background-color: #007aff;
+    color: white;
+    font-size: 16;
+    font-weight: 600;
+    padding: 14;
+    border-radius: 12;
+}
+
+.ios-btn-secondary {
+    background-color: #f2f2f7;
+    color: #007aff;
+    font-size: 16;
+    font-weight: 600;
+    padding: 14;
+    border-radius: 12;
+}
+
+.password-weak {
+    color: #ff4d4d;
+}
+
+.password-moderate {
+    color: #ffcc00;
+}
+
+.password-strong {
+    color: #00cc44;
+}
