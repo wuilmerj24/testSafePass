@@ -1,4 +1,5 @@
 /// <reference path="./node_modules/@nativescript/types/index.d.ts" />
+/// <reference path="./typings/ios/arm64/objc!SafePasswordiOSLib.d.ts" />
 
 declare module upinn {
     export module tech {
@@ -33,3 +34,4 @@ declare module upinn {
         }
     }
 }
+

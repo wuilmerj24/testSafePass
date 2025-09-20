@@ -27,7 +27,7 @@
 		<!-- Resultados -->
 		<StackLayout class="ios-card mt-4">
 			<Label [text]="'Contraseña: ' + password" class="ios-result" textWrap="true"></Label>
-			<Label [text]="'Fuerza: ' + password_fuerza" class="ios-result" [ngClass]="getStrengthClass()">
+			<Label [text]="isAndroid ? 'Fuerza: '+password_fuerzaAndroid : 'Fuerza: '+changeValue(password_fuerzaiOS)" class="ios-result" [ngClass]="getStrengthClass()">
 				<!-- También puedes usar la opción con el objeto directamente aquí -->
 			</Label>
 		</StackLayout>

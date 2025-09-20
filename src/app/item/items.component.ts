@@ -17,9 +17,11 @@ export class ItemsComponent {
 	includeUppercase:boolean=false;
 	includeNumbers:boolean=false;
 	includeSymbols:boolean=false;
-	safePassword:upinn.tech.safepasswordlib.SafePassword;
+	safePasswordAndroid:upinn.tech.safepasswordlib.SafePassword;
+	safePasswordiOS:SafePasswordW;
 	password:string="";
-	password_fuerza:upinn.tech.safepasswordlib.PasswordStrength;
+	password_fuerzaAndroid:upinn.tech.safepasswordlib.PasswordStrength;
+	password_fuerzaiOS;
 	private cdRef = inject(ChangeDetectorRef);
   	constructor() {
     	// Setup large titles on iOS
@@ -30,7 +32,11 @@ export class ItemsComponent {
 			}
 
 		})
-		this.safePassword = new upinn.tech.safepasswordlib.SafePassword();
+		if(__ANDROID__){
+			this.safePasswordAndroid = new upinn.tech.safepasswordlib.SafePassword();
+		}else if(__IOS__){
+			this.safePasswordiOS = new SafePasswordW();
+		}
   	}
 
 	onValueChange(args: PropertyChangeData){
@@ -50,27 +56,58 @@ export class ItemsComponent {
 	
 
 	getPassword() {
-		this.password = this.safePassword.makePassword(this.length,this.includeUppercase,this.includeNumbers,this.includeSymbols);
+		if(__ANDROID__){
+			this.password = this.safePasswordAndroid.makePassword(this.length,this.includeUppercase,this.includeNumbers,this.includeSymbols);
+		}else if(__IOS__){
+			this.password = this.safePasswordiOS.makePasswordWithLengthIncludeUppercaseIncludeNumbersIncludeSymbols(this.length,this.includeUppercase ? 1:0,this.includeNumbers ? 1:0,this.includeSymbols? 1:0);
+		}
 		this.checkPassword();
 	}
 
 	checkPassword() {
-		this.password_fuerza = this.safePassword.checkPassword(this.password)
-	}
-
-	actualizarFuerza(nuevaFuerza: string) {
-		this.password_fuerza = nuevaFuerza;
-		// Si actualizas la variable de una manera que Angular no detecta automáticamente (como inside de un setTimeout o una suscripción a un servicio muy específico), quizás necesites:
-		// this.cdRef.detectChanges();
-	}
-
-	getStrengthClass(): string {
-		switch (this.password_fuerza) {
-			case upinn.tech.safepasswordlib.PasswordStrength.WEAK: return 'password-weak';
-			case upinn.tech.safepasswordlib.PasswordStrength.MODERATE: return 'password-moderate';
-			case upinn.tech.safepasswordlib.PasswordStrength.STRONG: return 'password-strong';
-			default: return 'password-weak';
+		if(__ANDROID__){
+			this.password_fuerzaAndroid= this.safePasswordAndroid.checkPassword(this.password);
+		}else if(__IOS__){
+			this.password_fuerzaiOS=this.safePasswordiOS.checkPasswordWithPassword(this.password);
 		}
 	}
 
+	actualizarFuerza(nuevaFuerza: string) {
+		if(__ANDROID__){
+			this.password_fuerzaAndroid = nuevaFuerza;
+		}else if(__IOS__){
+			this.password_fuerzaiOS = nuevaFuerza;
+		}
+	}
+
+	getStrengthClass(): string {
+		if(__ANDROID__){
+			switch (this.password_fuerzaAndroid) {
+				case upinn.tech.safepasswordlib.PasswordStrength.WEAK: return 'password-weak';
+				case upinn.tech.safepasswordlib.PasswordStrength.MODERATE: return 'password-moderate';
+				case upinn.tech.safepasswordlib.PasswordStrength.STRONG: return 'password-strong';
+				default: return 'password-weak';
+			}
+		}else if(__IOS__){
+			switch (this.password_fuerzaiOS) {
+				case PasswordStrength.Weak: return 'password-weak';
+				case PasswordStrength.Moderate: return 'password-moderate';
+				case PasswordStrength.Strong: return 'password-strong';
+				default: return 'password-weak';
+			}
+		}
+	}
+
+
+	changeValue(password_fuerzaiOS):String{
+		if(parseInt(password_fuerzaiOS)==0){
+			return "Weak"
+		}else if(password_fuerzaiOS==1){
+			return "Moderate"
+		}else if(password_fuerzaiOS==2){
+			return "Strong"
+		}else{
+			return ""
+		}
+	}
 }
